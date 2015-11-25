@@ -53,10 +53,10 @@ cTitleAgeRelation(raw.train)
 train.missTitle <- c("Dr","Master","Miss","Miss","Mr","Mrs")
 raw.train$Age <- replaceByMedian(raw.train$Age,raw.train$Title,train.missTitle)
 
-#alternative way to predict the missing "Age" spots using ANOVA
-#library(rpart)
-#predicted_age <- rpart(Age ~ Pclass + Sex + SibSp + Parch + Fare + Embarked + Family_Size + Title, data = raw.train[!is.na(raw.train$Age),], method = "anova")
-#raw.train$Age[is.na(raw.train$Age)] <- predict(predicted_age, raw.train[is.na(raw.train$Age),])
+# alternative way to predict the missing "Age" spots using ANOVA
+# library(rpart)
+# predicted_age <- rpart(Age ~ Pclass + Sex + SibSp + Parch + Fare + Embarked + Family_Size + Title, data = raw.train[!is.na(raw.train$Age),], method = "anova")
+# raw.train$Age[is.na(raw.train$Age)] <- predict(predicted_age, raw.train[is.na(raw.train$Age),])
 
 # replace 0 in "Fare" with median fare of each "Pclass"
 raw.train$Fare <- getFare(raw.train)
@@ -91,10 +91,10 @@ cTitleAgeRelation(raw.test)
 test.missTitle <- c("Master","Miss","Mr","Mrs")
 raw.test$Age <- replaceByMedian(raw.test$Age,raw.test$Title,test.missTitle)
 
-#alternative way to predict the missing "Age" spots using ANOVA
-#library(rpart)
-#predicted_age <- rpart(Age ~ Pclass + Sex + SibSp + Parch + Fare + Embarked + Family_Size + Title, data = raw.test[!is.na(raw.test$Age),], method = "anova")
-#raw.test$Age[is.na(raw.test$Age)] <- predict(predicted_age, raw.test[is.na(raw.test$Age),])
+# alternative way to predict the missing "Age" spots using ANOVA
+# library(rpart)
+# predicted_age <- rpart(Age ~ Pclass + Sex + SibSp + Parch + Fare + Embarked + Family_Size + Title, data = raw.test[!is.na(raw.test$Age),], method = "anova")
+# raw.test$Age[is.na(raw.test$Age)] <- predict(predicted_age, raw.test[is.na(raw.test$Age),])
 
 # replace 0 in "Fare" with median fare of each "Pclass"
 raw.test$Fare <- getFare(raw.test)
