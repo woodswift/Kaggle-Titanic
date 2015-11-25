@@ -16,7 +16,7 @@ write.csv(my_solution, file = "my_solution.csv", row.names = FALSE)
 # --- Decision Tree without Name, Ticket, Cabin; adding control--- #
 # --- Score: 0.77990, "0.77990_my_solution_1101v2.csv" --- #
 library(rpart)
-my_tree_one <- rpart(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked, data=train, method="class",control=rpart.control(minsplit=50,cp=0))
+my_tree_one <- rpart(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked, data=train, method="class", control=rpart.control(minsplit=50,cp=0))
 my_prediction <- predict(my_tree_one, test, type = "class")
 my_solution <- data.frame(PassengerId = test$PassengerId, Survived = my_prediction)
 nrow(my_solution)
@@ -57,15 +57,15 @@ nrow(my_solution)
 write.csv(my_solution, file = "my_solution.csv", row.names = FALSE)
 
 # --- Random Forest without Name, Ticket, Cabin --- #
-# --- New attributes: Family_Size, Title --- #
+# --- New attributes: Family_Size --- #
 # --- With all filling missing spots in "Age" "Embarked" and replacing 0s in "Fare" --- #
-# --- Score: 0.42105, "0.42105_my_solution_1101v6.csv" --- #
+# --- Score: 0.77512, "0.77512_my_solution_1123v1.csv" --- #
 # Load in the package
 library(randomForest)
 # Set seed for reproducibility
 set.seed(111)
 # Apply the Random Forest Algorithm
-my_forest <- randomForest(as.factor(Survived) ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data = train, importance = TRUE, ntree = 1000)
+my_forest <- randomForest(as.factor(Survived) ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size, data = train, importance = TRUE, ntree = 1000)
 # two graphs appear:
 # the accuracy plot shows how much worse the model would perform without the included variables.
 # So a high decrease (= high value x-axis) links to a high predictive variable.
@@ -73,10 +73,10 @@ my_forest <- randomForest(as.factor(Survived) ~ Pclass + Sex + Age + SibSp + Par
 # The higher the variable scores here, the more important it is for the model.
 varImpPlot(my_forest)
 # waiving bugs
-levels(test$Pclass) <- levels(train$Pclass)
-levels(test$Sex) <- levels(train$Sex)
-levels(test$Embarked) <- levels(train$Embarked)
-levels(test$Title) <- levels(train$Title)
+# levels(test$Pclass) <- levels(train$Pclass)
+# levels(test$Sex) <- levels(train$Sex)
+# levels(test$Embarked) <- levels(train$Embarked)
+# levels(test$Title) <- levels(train$Title)
 # Make your prediction using the test set
 my_prediction <- predict(my_forest, test)
 # Create a data frame with two columns: PassengerId & Survived. Survived contains your predictions
@@ -85,19 +85,19 @@ my_solution <- data.frame(PassengerId = test$PassengerId, Survived = my_predicti
 write.csv(my_solution, file = "my_solution.csv", row.names = FALSE)
 
 # --- Random Forest without Name, Ticket, Cabin --- #
-# --- New attributes: Family_Size, Title --- #
+# --- New attributes: Family_Size --- #
 # --- With all filling missing spots in "Age" "Embarked" and replacing 0s in "Fare" --- #
 # --- Predict missing "Age" spots by using ANOVA --- #
-# --- Score: 0.42105, "0.42105_my_solution_1101v7.csv" --- #
+# --- Score: 0.77990, "0.77990_my_solution_1123v2.csv" --- #
 library(randomForest)
 set.seed(111)
-my_forest <- randomForest(as.factor(Survived) ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data = train, importance = TRUE, ntree = 1000)
+my_forest <- randomForest(as.factor(Survived) ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size, data = train, importance = TRUE, ntree = 1000)
 varImpPlot(my_forest)
 # waiving bugs
-levels(test$Pclass) <- levels(train$Pclass)
-levels(test$Sex) <- levels(train$Sex)
-levels(test$Embarked) <- levels(train$Embarked)
-levels(test$Title) <- levels(train$Title)
+# levels(test$Pclass) <- levels(train$Pclass)
+# levels(test$Sex) <- levels(train$Sex)
+# levels(test$Embarked) <- levels(train$Embarked)
+# levels(test$Title) <- levels(train$Title)
 my_prediction <- predict(my_forest, test)
 my_solution <- data.frame(PassengerId = test$PassengerId, Survived = my_prediction)
 write.csv(my_solution, file = "my_solution.csv", row.names = FALSE)
@@ -128,7 +128,7 @@ library(RWeka)
 # Removing any rows with NAs
 train <- train[complete.cases(train),]
 # Fitting the model
-model <- J48(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title,data=train)
+model <- J48(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
 # Making predictions
 test$Survived <- predict(model, newdata=test, type="class")
 # Saving predictions
@@ -149,7 +149,7 @@ test$Family_Size <- as.factor(test$Family_Size)
 # Removing any rows with NAs
 train <- train[complete.cases(train),]
 # Fitting the model
-model <- J48(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title,data=train)
+model <- J48(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
 # Making predictions
 test$Survived <- predict(model, newdata=test, type="class")
 # Saving predictions
@@ -157,12 +157,12 @@ write.csv(test[,c("PassengerId", "Survived")], file="my_solution.csv", row.names
 
 # --- Rweka LMT using processed train and test dataset --- #
 # --- New attributes: Family_Size, Title --- #
-# --- Score: 0.46411, "0.46411_my_solution_1122v4.csv" --- #
+# --- Score: 0.52153, "0.52153_my_solution_1123v3.csv" --- #
 library(RWeka)
 # Removing any rows with NAs
 train <- train[complete.cases(train),]
 # Fitting the model
-model <- LMT(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title,data=train)
+model <- LMT(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
 # Making predictions
 test$Survived <- predict(model, newdata=test, type="class")
 # Saving predictions
@@ -170,12 +170,12 @@ write.csv(test[,c("PassengerId", "Survived")], file="my_solution.csv", row.names
 
 # --- Rweka DecisionStump using processed train and test dataset --- #
 # --- New attributes: Family_Size, Title --- #
-# --- Score: 0.37321, "0.37321_my_solution_1122v5.csv" --- #
+# --- Score: 0.37321, "0.37321_my_solution_1123v4.csv" --- #
 library(RWeka)
 # Removing any rows with NAs
 train <- train[complete.cases(train),]
 # Fitting the model
-model <- DecisionStump(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title,data=train)
+model <- DecisionStump(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
 # Making predictions
 test$Survived <- predict(model, newdata=test, type="class")
 # Saving predictions
@@ -183,12 +183,12 @@ write.csv(test[,c("PassengerId", "Survived")], file="my_solution.csv", row.names
 
 # --- Rweka Logistic using processed train and test dataset --- #
 # --- New attributes: Family_Size, Title --- #
-# --- Score: 0.33493, "0.33493_my_solution_1122v6.csv" --- #
+# --- Score: 0.33014, "0.33014_my_solution_1123v5.csv" --- #
 library(RWeka)
 # Removing any rows with NAs
 train <- train[complete.cases(train),]
 # Fitting the model
-model <- Logistic(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title,data=train)
+model <- Logistic(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
 # Making predictions
 test$Survived <- predict(model, newdata=test, type="class")
 # Saving predictions
@@ -201,7 +201,7 @@ library(RWeka)
 # Removing any rows with NAs
 train <- train[complete.cases(train),]
 # Fitting the model
-model <- SMO(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title,data=train)
+model <- SMO(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
 # Making predictions
 test$Survived <- predict(model, newdata=test, type="class")
 # Saving predictions
@@ -214,7 +214,7 @@ library(RWeka)
 # Removing any rows with NAs
 train <- train[complete.cases(train),]
 # Fitting the model
-model <- IBk(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title,data=train)
+model <- IBk(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
 # Making predictions
 test$Survived <- predict(model, newdata=test, type="class")
 # Saving predictions
@@ -239,7 +239,7 @@ test$SibSp <- as.factor(test$SibSp)
 test$Parch <- as.factor(test$Parch)
 test$Family_Size <- as.factor(test$Family_Size)
 # Fitting the model
-model <- LBR(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title,data=train)
+model <- LBR(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
 # Making predictions
 test$Survived <- predict(model, newdata=test, type="class")
 # Saving predictions
