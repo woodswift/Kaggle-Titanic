@@ -244,3 +244,107 @@ model <- LBR(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + F
 test$Survived <- predict(model, newdata=test, type="class")
 # Saving predictions
 write.csv(test[,c("PassengerId", "Survived")], file="my_solution.csv", row.names=FALSE, quote=FALSE)
+
+# --- Rweka AdaBoostM1 using processed train and test dataset --- #
+# --- New attributes: Family_Size, Title --- #
+# --- Score: 0.40670, "0.40670_my_solution_1123v6.csv" --- #
+library(RWeka)
+# Removing any rows with NAs
+train <- train[complete.cases(train),]
+# Fitting the model
+model <- AdaBoostM1(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
+# Making predictions
+test$Survived <- predict(model, newdata=test, type="class")
+# Saving predictions
+write.csv(test[,c("PassengerId", "Survived")], file="my_solution.csv", row.names=FALSE, quote=FALSE)
+
+# --- Rweka Bagging using processed train and test dataset --- #
+# --- New attributes: Family_Size, Title --- #
+# --- Score: 0.32536, "0.32536_my_solution_1123v7.csv" --- #
+library(RWeka)
+# Removing any rows with NAs
+train <- train[complete.cases(train),]
+# Fitting the model
+model <- Bagging(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
+# Making predictions
+test$Survived <- predict(model, newdata=test, type="class")
+# Saving predictions
+write.csv(test[,c("PassengerId", "Survived")], file="my_solution.csv", row.names=FALSE, quote=FALSE)
+
+# --- Rweka LogitBoost using processed train and test dataset --- #
+# --- New attributes: Family_Size, Title --- #
+# --- Score: 0.60287, "0.60287_my_solution_1123v8.csv" --- #
+library(RWeka)
+# Removing any rows with NAs
+train <- train[complete.cases(train),]
+# Fitting the model
+model <- LogitBoost(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
+# Making predictions
+test$Survived <- predict(model, newdata=test, type="class")
+# Saving predictions
+write.csv(test[,c("PassengerId", "Survived")], file="my_solution.csv", row.names=FALSE, quote=FALSE)
+
+# --- Rweka MultiBoostAB using processed train and test dataset --- #
+# --- New attributes: Family_Size, Title --- #
+# --- Score: 0.70813, "0.70813_my_solution_1123v9.csv" --- #
+library(RWeka)
+# Removing any rows with NAs
+train <- train[complete.cases(train),]
+# Fitting the model
+model <- MultiBoostAB(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
+# Making predictions
+test$Survived <- predict(model, newdata=test, type="class")
+# Saving predictions
+write.csv(test[,c("PassengerId", "Survived")], file="my_solution.csv", row.names=FALSE, quote=FALSE)
+
+# --- Rweka Stacking using processed train and test dataset --- #
+# --- New attributes: Family_Size, Title --- #
+# --- Score: 0.62679, "0.62679_my_solution_1123v0.csv" --- #
+library(RWeka)
+# Removing any rows with NAs
+train <- train[complete.cases(train),]
+# Fitting the model
+model <- Stacking(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
+# Making predictions
+test$Survived <- predict(model, newdata=test, type="class")
+# Saving predictions
+write.csv(test[,c("PassengerId", "Survived")], file="my_solution.csv", row.names=FALSE, quote=FALSE)
+
+# --- Rweka JRip using processed train and test dataset --- #
+# --- New attributes: Family_Size, Title --- #
+# --- Score: 0.77990, "0.77990_my_solution_1125v1.csv" --- #
+library(RWeka)
+# Removing any rows with NAs
+train <- train[complete.cases(train),]
+# Fitting the model
+model <- JRip(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
+# Making predictions
+test$Survived <- predict(model, newdata=test, type="class")
+# Saving predictions
+write.csv(test[,c("PassengerId", "Survived")], file="my_solution.csv", row.names=FALSE, quote=FALSE)
+
+# --- Rweka OneR using processed train and test dataset --- #
+# --- New attributes: Family_Size, Title --- #
+# --- Score: 0.23923, "0.23923_my_solution_1125v2.csv" --- #
+library(RWeka)
+# Removing any rows with NAs
+train <- train[complete.cases(train),]
+# Fitting the model
+model <- OneR(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
+# Making predictions
+test$Survived <- predict(model, newdata=test, type="class")
+# Saving predictions
+write.csv(test[,c("PassengerId", "Survived")], file="my_solution.csv", row.names=FALSE, quote=FALSE)
+
+# --- Rweka PART using processed train and test dataset --- #
+# --- New attributes: Family_Size, Title --- #
+# --- Score: 0.76555, "0.76555_my_solution_1125v3.csv" --- #
+library(RWeka)
+# Removing any rows with NAs
+train <- train[complete.cases(train),]
+# Fitting the model
+model <- PART(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked + Family_Size + Title, data=train)
+# Making predictions
+test$Survived <- predict(model, newdata=test, type="class")
+# Saving predictions
+write.csv(test[,c("PassengerId", "Survived")], file="my_solution.csv", row.names=FALSE, quote=FALSE)
